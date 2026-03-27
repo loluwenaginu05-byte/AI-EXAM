@@ -79,13 +79,17 @@ Installation：
                         
                         student = Student(serial_number, name, gender, class_name, student_id, college)
 ```
+
         2.人工智能编程语言学生名单.txt路径错误：
             初始我将人工智能编程语言学生名单.txt放在main.py文件夹中
+
 ```bash
     #AI生成路径
      data_file = " 人工智能编程语言学生名单/人工智能编程语言学生名单.txt"
 ```
+
             发现路径报错之后自己调整代码
+
 ```
      data_file = "人工智能编程语言学生名单.txt"
 ```
