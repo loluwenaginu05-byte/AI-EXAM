@@ -15,7 +15,7 @@ class Student:
 
     def __str__(self):
         # 定义函数直接打印学生信息
-        return f"学号{self.serial_number},姓名：{self.name}, 性别：{self.gender}, 班级：{self.class_name}, 学号：{self.student_id}, 学院：{self.college}"
+        return f"序号{self.serial_number},姓名：{self.name}, 性别：{self.gender}, 班级：{self.class_name}, 学号：{self.student_id}, 学院：{self.college}"
 
 class ExamSystem:
     #创建考场系统
