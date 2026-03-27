@@ -16,7 +16,6 @@ class Student:
     def __str__(self):
         # 定义函数直接打印学生信息
         return f"学号{self.serial_number},姓名：{self.name}, 性别：{self.gender}, 班级：{self.class_name}, 学号：{self.student_id}, 学院：{self.college}"
-        pass
 
 class ExamSystem:
     #创建考场系统
@@ -32,11 +31,56 @@ class ExamSystem:
 
 #从文本中读取学生信息
     def load_data(self):
-        pass
+        try:
+            with open(self.data_file, 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+            
+            if len(lines) <= 1:
+                print("警告：文件内容为空或仅有表头，无有效数据。")
+                return
+
+            lines = lines[1:]#防止读取数据时将表头当成学生信息
+
+            for line in lines:
+                parts = line.strip().split()#以空格分割
+                if len(parts) >= 5:
+                    # 文件格式为：序号 姓名 性别 班级 学号 学院
+                    serial_number=parts[0]
+                    name = parts[1]
+                    gender = parts[2]
+                    class_name = parts[3]
+                    student_id = parts[4]
+                    college = parts[5]
+                    
+                    student = Student(serial_number, name, gender, class_name, student_id, college)
+                    self.students.append(student)
+                else:
+                    print(f"警告：跳过格式错误的行 -> {line.strip()}")#如果格式有问题就跳过
+                    
+            print(f"成功加载 {len(self.students)} 名学生信息。")
+
+        except FileNotFoundError:
+            print(f"错误：找不到文件 '{self.data_file}'，请确认文件路径是否正确。")
+        except Exception as e:
+            print(f"发生未知错误：{e}")
+
 
 #学号查找学生信息
     def find_student(self, target_id):
-        pass
+        if not self.validate_student_id(target_id):
+            print("输入错误：学号必须为数字。")
+            return
+
+        found = False
+        for student in self.students:
+            if student.student_id == target_id:
+                print("找到学生信息：")
+                print(student)
+                found = True
+                break
+        
+        if not found:
+            print(f"未找到学号为 {target_id} 的学生。")
 
 #随机点名系统
     def random_roll_call(self, count_str):
