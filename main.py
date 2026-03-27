@@ -49,3 +49,36 @@ class ExamSystem:
 #生成准考证文件
     def generate_admission_tickets(self, seated_students):
         pass
+
+def main():
+     data_file = "人工智能编程语言学生名单.txt"
+     system = ExamSystem(data_file)
+#按照需求选择1-5
+     while True:
+        print("\n=== 学生信息与考场管理系统 ===")
+        print("1. 查询学生信息")
+        print("2. 随机点名")
+        print("3. 生成考场安排表")
+        print("4. 生成准考证")
+        print("5. 退出")
+
+        choice = input("请选择功能 (1-5): ")
+
+        if choice == '1':
+            sid = input("请输入要查询的学号: ")
+            system.find_student(sid)
+        elif choice == '2':
+            num = input("请输入需要点名的学生数量: ")
+            system.random_roll_call(num)
+        elif choice == '3':
+            system.generate_seating_chart()
+        elif choice == '4':
+            print("提示：生成准考证需要先有考场安排。正在临时生成座位数据...")
+            seated = system.generate_seating_chart()
+            if seated:
+                system.generate_admission_tickets(seated)
+        elif choice == '5':
+            print("退出系统。")
+            break
+        else:
+            print("无效的选择，请重新输入。")
