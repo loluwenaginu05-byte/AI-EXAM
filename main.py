@@ -29,3 +29,11 @@ class ExamSystem:
     @staticmethod
     def validate_student_id(student_id):
         return student_id.isdigit()
+
+#从文本中读取学生信息
+    def load_data(self):
+        pass
+
+#学号查找学生信息
+    def find_student(self, target_id):
+        pass
