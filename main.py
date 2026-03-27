@@ -84,15 +84,88 @@ class ExamSystem:
 
 #随机点名系统
     def random_roll_call(self, count_str):
-        pass
+        try:
+            count = int(count_str)
+            if count <= 0:
+                print("输入错误：点名人数必须大于0。")
+                return
+            if count > len(self.students):
+                print(f"输入错误：当前只有 {len(self.students)} 名学生，无法点名 {count} 人。")
+                return
+            
+            # 随机抽取不重复的学生
+            selected_students = random.sample(self.students, count)
+            print(f"\n--- 随机点名结果 ({count}人) ---")
+            for i, s in enumerate(selected_students, 1):
+                print(f"{i}. {s.name} ({s.student_id})")
+
+        except ValueError:
+            print("输入错误：请输入有效的整数数字。")
 
 #生成考场安排表
     def generate_seating_chart(self):
-        pass
+        if not self.students:
+            print("没有学生数据，无法生成考场表。")
+            return
+
+        # 复制一份列表并打乱，避免影响原始数据
+        shuffled_students = self.students[:]
+        random.shuffle(shuffled_students)
+        
+        current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        filename = "考场安排表.txt"
+        #创建考场安排表.txt文件，将考场安排信息写入
+        try:
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(f"生成时间：{current_time}\n")
+                f.write("-" * 30 + "\n")
+                f.write(f"{'座位号':<10}{'姓名':<10}{'学号':<15}\n")
+                f.write("-" * 30 + "\n")
+                
+                for index, student in enumerate(shuffled_students, 1):
+                    f.write(f"{index:<10}{student.name:<10}{student.student_id:<15}\n")
+            
+            print(f"成功生成考场安排表：{filename}")
+            return shuffled_students # 返回打乱后的列表供生成准考证使用
+
+        except Exception as e:
+            print(f"生成考场安排表失败：{e}")
+            return None
 
 #生成准考证文件
     def generate_admission_tickets(self, seated_students):
-        pass
+        if not seated_students:
+            print("没有座位数据，无法生成准考证。")
+            return
+
+        folder_name = "准考证"
+        
+        # 创建文件夹，如果已存在则不报错
+        try:
+            if not os.path.exists(folder_name):
+                os.makedirs(folder_name)
+            
+            for index, student in enumerate(seated_students, 1):
+                # 文件名格式：01.txt, 02.txt ...
+                file_name = f"{index:02d}.txt"
+                file_path = os.path.join(folder_name, file_name)
+                
+                content = (
+                    f"=== 准考证 ===\n"
+                    f"座位号：{index}\n"
+                    f"姓名：{student.name}\n"
+                    f"学号：{student.student_id}\n"
+                    f"班级：{student.class_name}\n"
+                    f"学院：{student.college}\n"
+                )
+                
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    f.write(content)
+            
+            print(f"成功在 '{folder_name}' 文件夹中生成 {len(seated_students)} 张准考证。")
+
+        except Exception as e:
+            print(f"生成准考证失败：{e}")
 
 def main():
      data_file = "人工智能编程语言学生名单.txt"
@@ -126,3 +199,6 @@ def main():
             break
         else:
             print("无效的选择，请重新输入。")
+
+if __name__ == "__main__":
+    main()
