@@ -37,3 +37,15 @@ class ExamSystem:
 #学号查找学生信息
     def find_student(self, target_id):
         pass
+
+#随机点名系统
+    def random_roll_call(self, count_str):
+        pass
+
+#生成考场安排表
+    def generate_seating_chart(self):
+        pass
+
+#生成准考证文件
+    def generate_admission_tickets(self, seated_students):
+        pass
