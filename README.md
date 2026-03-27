@@ -4,7 +4,7 @@ Installation：
 ```bash
 #下载代码
     git clone https://github.com/loluwenaginu05-byte/AI-EXAM.git
-    cd tltl
+    cd AI-EXAM
     #这里我使用的是ubuntu24.04+python13版本，windows应该是python
     python3 main.py
 ```
